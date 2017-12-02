@@ -174,22 +174,30 @@ $(document).keydown(function(event) {
 
 	switch(event.which) {
 		case keyRight:
-			character.style.left = (parseInt(characterPosLeft.replace("px", ""))+3)+'px';
+			if(parseInt(characterPosLeft.replace("px", ""))+3+32 <= gamePosLeft+gameWidth) {
+				character.style.left = (parseInt(characterPosLeft.replace("px", ""))+3)+'px';
+			}
 			character.style.background = 'url("sprites/character_right.png")';
 		break;
 
 		case keyLeft:
-			character.style.left = (parseInt(characterPosLeft.replace("px", ""))-3)+'px';
+			if(parseInt(characterPosLeft.replace("px", ""))-3 >= gamePosLeft) {
+				character.style.left = (parseInt(characterPosLeft.replace("px", ""))-3)+'px';
+			}
 			character.style.background = 'url("sprites/character_left.png")';
 		break;
 
 		case keyUp:
-			character.style.top = (parseInt(characterPosTop.replace("px", ""))-3)+'px';
+			if(parseInt(characterPosTop.replace("px", ""))-3 >= gamePosTop) {
+				character.style.top = (parseInt(characterPosTop.replace("px", ""))-3)+'px';
+			}
 			character.style.background = 'url("sprites/character_up.png")';
 		break;
 
 		case keyDown:
-			character.style.top = (parseInt(characterPosTop.replace("px", ""))+3)+'px';
+			if(parseInt(characterPosTop.replace("px", ""))+3+32 <= gamePosTop+gameHeight) {
+				character.style.top = (parseInt(characterPosTop.replace("px", ""))+3)+'px';
+			}
 			character.style.background = 'url("sprites/character_down.png")';
 		break;
 
