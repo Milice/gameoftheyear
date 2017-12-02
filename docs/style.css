@@ -19,6 +19,12 @@ body {
 	margin: 0 auto;
 }
 
+#character {
+	background: url("sprites/character_down.png");
+	height: 32px;
+	width: 32px;
+}
+
 footer {
 	width: 100%;
 	text-align: center;

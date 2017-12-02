@@ -1,4 +1,5 @@
 var trees = [];
+var timers = [];
 var treesBuilt = 0;
 var points = 0;
 
@@ -144,7 +145,19 @@ function spawnCharacter() {
 	var gameWindow = document.getElementById("game");
 	var posInfo = gameWindow.getBoundingClientRect();
 
-	gameWindow.innerHTML = gameWindow.innerHTML + '<div id="character" style="z-index: 2; background: #FFF; height: 32px; width: 32px; position: absolute; left: ' + (posInfo.left + (posInfo.width / 2) - 16) + 'px; top: ' + (posInfo.top + (posInfo.height / 2) - 16) + 'px;"></span>';
+	gameWindow.innerHTML = gameWindow.innerHTML + '<div id="character" style="z-index: 2; position: absolute; left: ' + (posInfo.left + (posInfo.width / 2) - 16) + 'px; top: ' + (posInfo.top + (posInfo.height / 2) - 16) + 'px;"></span>';
+}
+
+function despawnTrees() {
+	for(var x = 0; x < timers.length; x ++) {
+		clearTimeout(timers[x]);
+		timers.splice(x, 1);
+	}
+
+	for(var i = 0; i < trees.length; i++) {
+		var currentTree = document.getElementById(trees[i][2]);
+		currentTree.remove();
+	}
 }
 
 $(document).keydown(function(event) {
@@ -162,18 +175,22 @@ $(document).keydown(function(event) {
 	switch(event.which) {
 		case keyRight:
 			character.style.left = (parseInt(characterPosLeft.replace("px", ""))+3)+'px';
+			character.style.background = 'url("sprites/character_right.png")';
 		break;
 
 		case keyLeft:
 			character.style.left = (parseInt(characterPosLeft.replace("px", ""))-3)+'px';
+			character.style.background = 'url("sprites/character_left.png")';
 		break;
 
 		case keyUp:
 			character.style.top = (parseInt(characterPosTop.replace("px", ""))-3)+'px';
+			character.style.background = 'url("sprites/character_up.png")';
 		break;
 
 		case keyDown:
 			character.style.top = (parseInt(characterPosTop.replace("px", ""))+3)+'px';
+			character.style.background = 'url("sprites/character_down.png")';
 		break;
 
 		case keySpace:
@@ -186,7 +203,7 @@ $(document).keydown(function(event) {
 				currentTree.remove();
 				trees.splice(treeIndex, 1);
 				updatePoints(1);
-				setTimeout(generateTree, 2500);
+				timers[timers.length] = setTimeout(generateTree, 2500);
 			}
 		break;
 
@@ -194,6 +211,7 @@ $(document).keydown(function(event) {
 			if(points >= 25) {
 				alert("You have built a boat!");
 				updatePoints(-25);
+				despawnTrees();
 			} else {
 				alert("You need 25 wood to build a boat!");
 			}
